@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace TaskNgTool
 {
@@ -9,6 +11,8 @@ namespace TaskNgTool
     {
         public static void Register(HttpConfiguration config)
         {
+            config.EnableCors(new EnableCorsAttribute("*", headers: "*", methods: "*"));
+            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/octet-stream"));
             // Web API configuration and services
 
             // Web API routes

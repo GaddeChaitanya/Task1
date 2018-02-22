@@ -9,16 +9,42 @@ namespace TaskNgTool.Controllers
 {
     public class ValuesController : ApiController
     {
+        private Ptg_Task_TrackerEntities db = new Ptg_Task_TrackerEntities();
         // GET api/values
-        public IEnumerable<string> Get()
+        public int Get()
         {
-            return new string[] { "value1", "value2" };
+            int count = 0;
+            try
+            {
+                count = db.tasks.Max(t => t.TaskID);
+                Console.WriteLine(count);
+                return count;
+            }
+            catch (Exception ex)
+            {
+                return count;
+            }
         }
 
         // GET api/values/5
         public string Get(int id)
         {
-            return "value";
+            string val = "Un Authorized user";
+            string user = Environment.UserName;
+            try
+            {
+                var res = db.users;
+                foreach (var item in res)
+                {
+                    if (user.Equals(item.UserName))
+                        val = item.UserName;
+                }
+            }
+            catch(Exception ex)
+            {
+                return val;
+            }            
+            return val;
         }
 
         // POST api/values

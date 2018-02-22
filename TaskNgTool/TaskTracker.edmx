@@ -1,0 +1,556 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TaskTrackerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="position">
+          <Key>
+            <PropertyRef Name="PositionID" />
+          </Key>
+          <Property Name="PositionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PositionName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="300" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+          <Property Name="RoleStatus" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="1" />
+          <Property Name="PositionID" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="task">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="TaskID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+          <Property Name="TaskStatus" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="RoleID" Type="int" />
+          <Property Name="CustomTaskUserID" Type="int" />
+        </EntityType>
+        <EntityType Name="taskrecords">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="RecordID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Duration" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="TaskStatus" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="PositionID" Type="int" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="enteredDuration" Type="nvarchar" MaxLength="100" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="PositionID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__role__PositionID__2E1BDC42">
+          <End Role="position" Type="Self.position" Multiplicity="0..1" />
+          <End Role="role" Type="Self.role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="position">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="role">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__task__RoleID__33D4B598">
+          <End Role="role" Type="Self.role" Multiplicity="0..1" />
+          <End Role="task" Type="Self.task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="task">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__taskrecor__Posit__37A5467C">
+          <End Role="position" Type="Self.position" Multiplicity="0..1" />
+          <End Role="taskrecords" Type="Self.taskrecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="position">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="taskrecords">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__taskrecor__RoleI__38996AB5">
+          <End Role="role" Type="Self.role" Multiplicity="1" />
+          <End Role="taskrecords" Type="Self.taskrecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="taskrecords">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__taskrecor__TaskI__3C69FB99">
+          <End Role="task" Type="Self.task" Multiplicity="1" />
+          <End Role="taskrecords" Type="Self.taskrecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task">
+              <PropertyRef Name="TaskID" />
+            </Principal>
+            <Dependent Role="taskrecords">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users__PositionI__2A4B4B5E">
+          <End Role="position" Type="Self.position" Multiplicity="1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="position">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TaskTrackerModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="position" EntityType="Self.position" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="role" EntityType="Self.role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="task" EntityType="Self.task" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="taskrecords" EntityType="Self.taskrecords" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__role__PositionID__2E1BDC42" Association="Self.FK__role__PositionID__2E1BDC42">
+            <End Role="position" EntitySet="position" />
+            <End Role="role" EntitySet="role" />
+          </AssociationSet>
+          <AssociationSet Name="FK__task__RoleID__33D4B598" Association="Self.FK__task__RoleID__33D4B598">
+            <End Role="role" EntitySet="role" />
+            <End Role="task" EntitySet="task" />
+          </AssociationSet>
+          <AssociationSet Name="FK__taskrecor__Posit__37A5467C" Association="Self.FK__taskrecor__Posit__37A5467C">
+            <End Role="position" EntitySet="position" />
+            <End Role="taskrecords" EntitySet="taskrecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__taskrecor__RoleI__38996AB5" Association="Self.FK__taskrecor__RoleI__38996AB5">
+            <End Role="role" EntitySet="role" />
+            <End Role="taskrecords" EntitySet="taskrecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__taskrecor__TaskI__3C69FB99" Association="Self.FK__taskrecor__TaskI__3C69FB99">
+            <End Role="task" EntitySet="task" />
+            <End Role="taskrecords" EntitySet="taskrecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users__PositionI__2A4B4B5E" Association="Self.FK__users__PositionI__2A4B4B5E">
+            <End Role="position" EntitySet="position" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TaskTrackerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="position">
+          <Key>
+            <PropertyRef Name="PositionID" />
+          </Key>
+          <Property Name="PositionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PositionName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="roles" Relationship="Self.FK__role__PositionID__2E1BDC42" FromRole="position" ToRole="role" />
+          <NavigationProperty Name="taskrecords" Relationship="Self.FK__taskrecor__Posit__37A5467C" FromRole="position" ToRole="taskrecords" />
+          <NavigationProperty Name="users" Relationship="Self.FK__users__PositionI__2A4B4B5E" FromRole="position" ToRole="users" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="RoleStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="PositionID" Type="Int32" />
+          <NavigationProperty Name="position" Relationship="Self.FK__role__PositionID__2E1BDC42" FromRole="role" ToRole="position" />
+          <NavigationProperty Name="tasks" Relationship="Self.FK__task__RoleID__33D4B598" FromRole="role" ToRole="task" />
+          <NavigationProperty Name="taskrecords" Relationship="Self.FK__taskrecor__RoleI__38996AB5" FromRole="role" ToRole="taskrecords" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="task">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="TaskID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="TaskStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="CustomTaskUserID" Type="Int32" />
+          <NavigationProperty Name="role" Relationship="Self.FK__task__RoleID__33D4B598" FromRole="task" ToRole="role" />
+          <NavigationProperty Name="taskrecords" Relationship="Self.FK__taskrecor__TaskI__3C69FB99" FromRole="task" ToRole="taskrecords" />
+        </EntityType>
+        <EntityType Name="taskrecord">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="RecordID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Duration" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TaskStatus" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PositionID" Type="Int32" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="enteredDuration" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="position" Relationship="Self.FK__taskrecor__Posit__37A5467C" FromRole="taskrecords" ToRole="position" />
+          <NavigationProperty Name="role" Relationship="Self.FK__taskrecor__RoleI__38996AB5" FromRole="taskrecords" ToRole="role" />
+          <NavigationProperty Name="task" Relationship="Self.FK__taskrecor__TaskI__3C69FB99" FromRole="taskrecords" ToRole="task" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PositionID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="position" Relationship="Self.FK__users__PositionI__2A4B4B5E" FromRole="users" ToRole="position" />
+        </EntityType>
+        <Association Name="FK__role__PositionID__2E1BDC42">
+          <End Role="position" Type="Self.position" Multiplicity="0..1" />
+          <End Role="role" Type="Self.role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="position">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="role">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__taskrecor__Posit__37A5467C">
+          <End Role="position" Type="Self.position" Multiplicity="0..1" />
+          <End Role="taskrecords" Type="Self.taskrecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="position">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="taskrecords">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users__PositionI__2A4B4B5E">
+          <End Role="position" Type="Self.position" Multiplicity="1" />
+          <End Role="users" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="position">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__task__RoleID__33D4B598">
+          <End Role="role" Type="Self.role" Multiplicity="0..1" />
+          <End Role="task" Type="Self.task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="task">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__taskrecor__RoleI__38996AB5">
+          <End Role="role" Type="Self.role" Multiplicity="1" />
+          <End Role="taskrecords" Type="Self.taskrecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="taskrecords">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__taskrecor__TaskI__3C69FB99">
+          <End Role="task" Type="Self.task" Multiplicity="1" />
+          <End Role="taskrecords" Type="Self.taskrecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task">
+              <PropertyRef Name="TaskID" />
+            </Principal>
+            <Dependent Role="taskrecords">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TaskTrackerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="positions" EntityType="Self.position" />
+          <EntitySet Name="roles" EntityType="Self.role" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="tasks" EntityType="Self.task" />
+          <EntitySet Name="taskrecords" EntityType="Self.taskrecord" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="FK__role__PositionID__2E1BDC42" Association="Self.FK__role__PositionID__2E1BDC42">
+            <End Role="position" EntitySet="positions" />
+            <End Role="role" EntitySet="roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__taskrecor__Posit__37A5467C" Association="Self.FK__taskrecor__Posit__37A5467C">
+            <End Role="position" EntitySet="positions" />
+            <End Role="taskrecords" EntitySet="taskrecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users__PositionI__2A4B4B5E" Association="Self.FK__users__PositionI__2A4B4B5E">
+            <End Role="position" EntitySet="positions" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="FK__task__RoleID__33D4B598" Association="Self.FK__task__RoleID__33D4B598">
+            <End Role="role" EntitySet="roles" />
+            <End Role="task" EntitySet="tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__taskrecor__RoleI__38996AB5" Association="Self.FK__taskrecor__RoleI__38996AB5">
+            <End Role="role" EntitySet="roles" />
+            <End Role="taskrecords" EntitySet="taskrecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__taskrecor__TaskI__3C69FB99" Association="Self.FK__taskrecor__TaskI__3C69FB99">
+            <End Role="task" EntitySet="tasks" />
+            <End Role="taskrecords" EntitySet="taskrecords" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TaskTrackerModelStoreContainer" CdmEntityContainer="TaskTrackerEntities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="TaskTrackerModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="positions">
+            <EntityTypeMapping TypeName="TaskTrackerModel.position">
+              <MappingFragment StoreEntitySet="position">
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+                <ScalarProperty Name="PositionName" ColumnName="PositionName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="TaskTrackerModel.role">
+              <MappingFragment StoreEntitySet="role">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="RoleStatus" ColumnName="RoleStatus" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="TaskTrackerModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tasks">
+            <EntityTypeMapping TypeName="TaskTrackerModel.task">
+              <MappingFragment StoreEntitySet="task">
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TaskStatus" ColumnName="TaskStatus" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="CustomTaskUserID" ColumnName="CustomTaskUserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="taskrecords">
+            <EntityTypeMapping TypeName="TaskTrackerModel.taskrecord">
+              <MappingFragment StoreEntitySet="taskrecords">
+                <ScalarProperty Name="RecordID" ColumnName="RecordID" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="TaskStatus" ColumnName="TaskStatus" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="enteredDuration" ColumnName="enteredDuration" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="TaskTrackerModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

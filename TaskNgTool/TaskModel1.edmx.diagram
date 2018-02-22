@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1ccb83d05ec34ae4a1e034529aa5bd03" Name="Diagram1">
+        <EntityTypeShape EntityType="Ptg_Task_TrackerModel.position" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Ptg_Task_TrackerModel.role" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Ptg_Task_TrackerModel.task" Width="1.5" PointX="5.25" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Ptg_Task_TrackerModel.taskrecord" Width="1.5" PointX="7.5" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="Ptg_Task_TrackerModel.user" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Ptg_Task_TrackerModel.database_firewall_rules" Width="1.5" PointX="5.75" PointY="7.75" IsExpanded="true" />
+        <AssociationConnector Association="Ptg_Task_TrackerModel.FK__role__PositionID__571DF1D5" ManuallyRouted="false" />
+        <AssociationConnector Association="Ptg_Task_TrackerModel.FK__taskrecor__Posit__619B8048" ManuallyRouted="false" />
+        <AssociationConnector Association="Ptg_Task_TrackerModel.FK__users__PositionI__52593CB8" ManuallyRouted="false" />
+        <AssociationConnector Association="Ptg_Task_TrackerModel.FK__task__RoleID__5CD6CB2B" ManuallyRouted="false" />
+        <AssociationConnector Association="Ptg_Task_TrackerModel.FK__taskrecor__RoleI__60A75C0F" ManuallyRouted="false" />
+        <AssociationConnector Association="Ptg_Task_TrackerModel.FK__taskrecor__TaskI__6383C8BA" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
